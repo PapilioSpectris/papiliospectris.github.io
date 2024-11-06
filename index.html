@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papilio Spectris</title>
+    <style>
+        /* Main Styling */
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #c3ecff, #f2c3ff);
+            margin-top: 60px; /* Adjust based on top-bar height */
+            padding: 20px;
+        }
+
+        /* Top Navigation Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(75, 0, 130, 0.9); /* Semi-transparent dark indigo */
+            padding: 10px 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure it stays on top */
+            display: flex;
+            justify-content: center;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .top-bar a:hover {
+            background-color: #6a0dad;
+        }
+
+        /* Other styles */
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .project, .credits {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .project img.project-logo {
+                margin: 0 0 10px 0;
+            }
+            .button img {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header img.organization-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #4B0082;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        /* Main Description */
+        .description {
+            max-width: 700px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1em;
+            padding: 10px 20px;
+            color: white;
+            background-color: #4B0082;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            gap: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #6a0dad;
+        }
+
+        .button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Offset section for fixed top-bar */
+        .section-offset {
+            padding-top: 60px; /* Same height as the top bar */
+            margin-top: -60px; /* Negative margin to visually align with original layout */
+        }
+
+        /* Section Titles */
+        .section-title {
+            color: #666;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 2px;
+            background-color: #4B0082;
+            margin: 10px auto;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            max-width: 700px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .project {
+            display: flex;
+            align-items: center;
+            background-color: #ffffffd9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .project img.project-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .project-description h2 {
+            color: #6a0dad;
+            margin: 0;
+        }
+
+        /* Credits Section */
+        .credits {
+            max-width: 700px;
+            width: 100%;
+            background-color: #ffffffd9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Dev Section */
+        .credit-section {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .credit-section img.big-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .credit-section h3 {
+            margin: 0;
+            color: #4B0082;
+            font-size: 1.2em;
+        }
+
+        .credit-section p {
+            margin: 3px 0 0;
+            font-size: 1em;
+            color: #555;
+        }
+
+        /* Support Us Button */
+        .support-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            color: white;
+            background-color: #4B0082;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .support-button:hover {
+            opacity: 0.7;
+        }
+
+        .credit-section img.small-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer Styling */
+        footer {
+            font-size: 0.8em;
+            color: #555;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+            margin: 0 5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-icons img:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar for Navigation -->
+    <nav class="top-bar">
+        <a href="#">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#team">Our Team</a>
+        <a href="#supporters">Support Us</a>
+        <a href="#contact">Contact Us</a>
+    </nav>
+
+    <!-- Header with Logo and Title -->
+    <header>
+        <img src="images/logo.png" alt="Papilio Spectris Logo" class="organization-logo" />
+        <h1>Papilio Spectris</h1>
+    </header>
+
+    <!-- Description Section -->
+    <div class="description">
+        <p>Welcome to Papilio Spectris! We're a game development and AI-driven organization, crafting open-source projects that bring worlds to life. Follow us as we innovate in game development, artificial intelligence, and explore new boundaries of creativity and interaction.</p>
+        <a href="https://github.com/PapilioSpectris" class="button" aria-label="View Our Projects on GitHub">
+            <img src="images/github.png" alt="GitHub Icon" />View Our Projects on GitHub
+        </a>
+        <a href="https://www.youtube.com/@zucchini_ackerman" class="button" aria-label="Watch Devlogs on YouTube">
+            <img src="images/youtube.png" alt="YouTube Icon" />Watch Devlogs on YouTube
+        </a>
+    </div>
+
+    <!-- Projects Section -->
+    <h2 id="projects" class="section-title section-offset">Our Upcoming Projects</h2>
+    <section class="projects-section" aria-labelledby="projects">
+        <!-- Project: ZaCaveGame3D -->
+        <article class="project" aria-labelledby="zacavegame-title">
+            <img src="images/projects/zacavegame3d.png" alt="ZaCaveGame3D Logo" class="project-logo" />
+            <div class="project-description">
+                <h2 id="zacavegame-title">ZaCaveGame3D</h2>
+                <p>A 3D medieval fantasy RPG sandbox with an anime-inspired style. Dive into a world of procedurally generated lands filled with rich history, dynamic and evolving in-world lore, and NPCs with realistic AI and emotions.</p>
+            </div>
+        </article>
+    </section>
+
+    <!-- Team Section -->
+    <h2 id="team" class="section-title section-offset">Our Team</h2>
+    <section class="credits" aria-labelledby="team">
+        <!-- Dev Information with Image -->
+        <h2 class="small-title">Devs</h2>
+        <div class="credit-section">
+            <img src="images/devs/zucchini_ackerman.png" alt="Zucchini Ackerman" class="big-avatar" />
+            <div>
+                <h3>Zucchini Ackerman</h3>
+                <p>Founder and Sole Developer</p>
+                <p>Contact info: zucchini.ackerman@gmail.com</p>
+            </div>
+        </div>
+    </section>
+    <!-- Support us Section -->
+    <h2 id="supporters" class="section-title section-offset">Support Us</h2>
+    <section class="credits" aria-labelledby="team">
+        <h2 class="small-title"></h2>
+        <p>We appreciate any support to help us continue working on these projects.</p>
+        <p>Become a member and you'll appear within our games!</p>
+        <a href="#" class="support-button">Support Us (coming soon)</a>
+        <!-- Supporters Section -->
+        <div aria-labelledby="supporters">
+            <h2 class="small-title">Supporters</h2>
+            <div class="credit-section">
+                <img src="images/supporters/default.png" alt="Zucchini Ackerman" class="small-avatar" />
+                <div>
+                    <h3>Be our first supporter!</h3>
+                </div>
+            </div>
+            <p></p>
+        </div>
+    </section>
+
+    <h2 id="contact" class="section-title section-offset">Contact Us</h2>
+    <section class="credits" aria-labelledby="team">
+        <!-- Dev Information with Image -->
+        <h2 class="small-title">Send us Feedback</h2>
+        <div class="credit-section">
+            <img src="images/devs/zucchini_ackerman.png" alt="Zucchini Ackerman" class="big-avatar" />
+            <div>
+                <h3>Zucchini Ackerman</h3>
+                <p>Contact info: zucchini.ackerman@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Social Media Links -->
+    <footer>
+        <p>&copy; 2024 Papilio Spectris. All rights reserved. | Open-source for a better future.</p>
+        <div class="social-icons">
+            <a href="https://github.com/PapilioSpectris" aria-label="GitHub"><img src="images/github.png" alt="GitHub"></a>
+            <a href="https://www.youtube.com/@zucchini_ackerman" aria-label="YouTube"><img src="images/youtube.png" alt="YouTube"></a>
+            <a href="mailto:zucchini.ackerman@gmail.com" aria-label="Email"><img src="images/email.png" alt="Email"></a>
+        </div>
+    </footer>
+
+</body>
+</html>
